@@ -26,76 +26,87 @@ const navSlide = ()=>{
 navSlide();
 /*********************************Colocar aca el desarrollo de su ejercicio***************************/
 
-var cont = 1;
-var bitacoras = [];
-var formulario = document.getElementById ("bitacora");
 
-formulario.addEventListener("submit", (evt) => {
+var cont = 1, 
+    bitacoras = [],
+    formulario = document.getElementById("bitacora");
+    console.log(formulario);
+    console.log(formulario[0]);
+    
 
-}); 
 
-formulario.addEventListener("submit", (evt) => {
-    evt.preventDefault();
- }); 
- 
- formulario.addEventListener("submit", (evt) => {
-    evt.preventDefault();
-    let bitacora = {
-    cant:cont,
-    fecha: formulario[1].value,
-    descripcion: formulario[2].value,
-    cantidad: formulario[3].value
-  }
- }); 
-
- formulario.addEventListener("submit", (evt) => {
-    evt.preventDefault(); 
-    let bitacora = { 
-    cant:cont, 
-    fecha: formulario[1].value, 
-    descripcion: formulario[2].value, 
-    cantidad: formulario[3].value 
-  } 
-    bitacoras.push(bitacora);
-    cont++;
-    mostrar();
- }); 
- const crearElemento = (bitacora, tbody) =>{ 
-    let tr = document.createElement("tr"); 
-    Object.values(bitacora).forEach(item => { 
-     let td = document.createElement("td"); 
-     let content = document.createTextNode(item); 
-     td.appendChild(content); 
-     tr.appendChild(td); 
-     tr.setAttribute('class', 'click');
-    }); 
-   tbody.appendChild(tr); 
-  } 
-
-const eliminar= (tbody)=>{
-    while (tbody.firstChild) {
-     tbody.removeChild(tbody.firstChild);
-    }
-   }
-
-   const agregar= ()=>{ 
-    var eventtr = document.querySelectorAll(".click"); 
-      eventtr.forEach((item, index) => { 
-      item.addEventListener("click", () => { 
-      document.querySelector("#fecha").value = item.childNodes[0].textContent; 
-      document.querySelector("#descp").value = item.childNodes[1].textContent; 
-      document.querySelector("#cant").value = item.childNodes[2].textContent; 
-       
+    formulario.addEventListener("submit", evt => {
+        evt.preventDefault();
+        let bitacora = {
+        cant:cont,
+        fecha: formulario[1].value,
+        descripcion: formulario[2].value,
+        cantidad: formulario[3].value
+      }
+        bitacoras.push(bitacora);
+        cont++;
+        mostrar();
      }); 
-    }) 
-   } 
 
-   const mostrar = ()=>{ 
-    if (document.querySelector(".tabla-btc tbody").childElementCount > 0) { 
-     eliminar(document.querySelector(".tabla-btc tbody")); 
+     const botonEliminar = document.createElement("button").
+                           appendChild(document.createTextNode("eliminar"));
+
+    
+     const crearElemento = (bitacora, tbody) =>{
+        let tr = document.createElement("tr");
+        Object.values(bitacora).forEach(item => {
+            let td = document.createElement("td"),
+                content = document.createTextNode(item);
+         
+            td.appendChild(content);
+            tr.setAttribute("class", "click");
+            tr.appendChild(td);
+        });
+        let btn = document.createElement("button"),
+            texto = document.createTextNode("ELIMINAR");
+        btn.appendChild(texto);
+        btn.addEventListener("click", function (evt){
+            let parent = this.parentNode;
+            document.getElementById("tabla-body").removeChild(parent); 
+            bitacoras = [];
+        });
+        tr.appendChild(btn);
+        tbody.appendChild(tr);
+      } 
+
+    const copiarTabla = tbody => {
+        
+    }
+
+    
+      const eliminar= (tbody)=>{
+        while (tbody.firstChild) {
+            tbody.removeChild(tbody.firstChild);
+        }
+    }
+
+
+
+    const agregar= ()=>{
+        var eventtr = document.querySelectorAll(".click");
+        eventtr.forEach((item, index) => {
+            item.addEventListener("click", () => {
+            document.querySelector("#fecha").value = item.childNodes[1].textContent;
+            console.log(document.querySelector("#fecha").value);
+            document.querySelector("#descp").value = item.childNodes[2].textContent;
+            console.log(document.querySelector("#descp").value);
+            document.querySelector("#cant").value = item.childNodes[3].textContent;
+            console.log(document.querySelector("#cant").value);
+            });        
+        })
     } 
-    bitacoras.forEach(item => { 
-     crearElemento(item, document.querySelector(".tabla-btc tbody")); 
-    }); 
-    agregar(); 
-   } 
+
+    const mostrar = ()=> {
+        if (document.querySelector(".tabla-btc tbody").childElementCount > 0) {
+         eliminar(document.querySelector(".tabla-btc tbody"));
+        }
+        bitacoras.forEach(item => {
+         crearElemento(item, document.querySelector(".tabla-btc tbody"));
+        });
+        agregar();
+} 
